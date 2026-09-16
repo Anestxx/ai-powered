@@ -1,0 +1,632 @@
+{
+  "status": "completed",
+  "completed_epochs": 4,
+  "dataset": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\datasets\\mixed_vehicles_512_128_128_seed42\\data.yaml",
+  "dataset_splits": {
+    "train": {
+      "images": 512,
+      "object_counts": {
+        "bicycle": 485,
+        "car": 5617,
+        "bus": 328,
+        "motorcycle": 1177,
+        "truck": 566
+      }
+    },
+    "val": {
+      "images": 128,
+      "object_counts": {
+        "bicycle": 104,
+        "car": 1154,
+        "motorcycle": 428,
+        "truck": 99,
+        "bus": 19
+      }
+    },
+    "test": {
+      "images": 128,
+      "object_counts": {
+        "motorcycle": 492,
+        "car": 1371,
+        "truck": 96,
+        "bicycle": 118,
+        "bus": 30
+      }
+    }
+  },
+  "base_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\yolo26n.pt",
+  "trained_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\vehicles_20260916T163645Z.pt",
+  "sha256": "4019b30227bac4e7ff5bc62d38621247d51668736b1afc8317a153359c263ee4",
+  "device": "cpu",
+  "image_size": 416,
+  "batch": 2,
+  "learning_rate": 5e-05,
+  "warmup_bias_learning_rate": 0.0,
+  "frozen_backbone_layers": 10,
+  "pytorch": "2.14.0+cpu",
+  "ultralytics": "8.4.153",
+  "baseline_validation": {
+    "overall": {
+      "metrics/precision(B)": 0.7291053890149033,
+      "metrics/recall(B)": 0.2561666243506486,
+      "metrics/mAP50(B)": 0.29094044102114136,
+      "metrics/mAP50-95(B)": 0.2067684134321331,
+      "fitness": 0.2067684134321331
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 43,
+        "Instances": 104,
+        "Box-P": 0.74824,
+        "Box-R": 0.125,
+        "Box-F1": 0.21421,
+        "mAP50": 0.14722,
+        "mAP75": 0.09905,
+        "mAP50-95": 0.09156
+      },
+      {
+        "Class": "car",
+        "Images": 94,
+        "Instances": 1154,
+        "Box-P": 0.78139,
+        "Box-R": 0.29115,
+        "Box-F1": 0.42423,
+        "mAP50": 0.39818,
+        "mAP75": 0.24321,
+        "mAP50-95": 0.23366
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 57,
+        "Instances": 428,
+        "Box-P": 0.8975,
+        "Box-R": 0.06139,
+        "Box-F1": 0.11492,
+        "mAP50": 0.10886,
+        "mAP75": 0.0657,
+        "mAP50-95": 0.06341
+      },
+      {
+        "Class": "bus",
+        "Images": 15,
+        "Instances": 19,
+        "Box-P": 0.64613,
+        "Box-R": 0.63158,
+        "Box-F1": 0.63877,
+        "mAP50": 0.60243,
+        "mAP75": 0.51818,
+        "mAP50-95": 0.5094
+      },
+      {
+        "Class": "truck",
+        "Images": 51,
+        "Instances": 99,
+        "Box-P": 0.57227,
+        "Box-R": 0.17172,
+        "Box-F1": 0.26417,
+        "mAP50": 0.19801,
+        "mAP75": 0.15851,
+        "mAP50-95": 0.13581
+      }
+    ]
+  },
+  "trained_validation": {
+    "overall": {
+      "metrics/precision(B)": 0.6026042389848979,
+      "metrics/recall(B)": 0.26845431749997095,
+      "metrics/mAP50(B)": 0.27774883660077676,
+      "metrics/mAP50-95(B)": 0.19336420758975859,
+      "fitness": 0.19336420758975859
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 43,
+        "Instances": 104,
+        "Box-P": 0.66189,
+        "Box-R": 0.125,
+        "Box-F1": 0.21029,
+        "mAP50": 0.13395,
+        "mAP75": 0.09431,
+        "mAP50-95": 0.08643
+      },
+      {
+        "Class": "car",
+        "Images": 94,
+        "Instances": 1154,
+        "Box-P": 0.56,
+        "Box-R": 0.3827,
+        "Box-F1": 0.45468,
+        "mAP50": 0.37374,
+        "mAP75": 0.22962,
+        "mAP50-95": 0.21201
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 57,
+        "Instances": 428,
+        "Box-P": 0.72189,
+        "Box-R": 0.08178,
+        "Box-F1": 0.14691,
+        "mAP50": 0.12554,
+        "mAP75": 0.05638,
+        "mAP50-95": 0.06194
+      },
+      {
+        "Class": "bus",
+        "Images": 15,
+        "Instances": 19,
+        "Box-P": 0.49649,
+        "Box-R": 0.63158,
+        "Box-F1": 0.55595,
+        "mAP50": 0.60849,
+        "mAP75": 0.59966,
+        "mAP50-95": 0.50889
+      },
+      {
+        "Class": "truck",
+        "Images": 51,
+        "Instances": 99,
+        "Box-P": 0.57275,
+        "Box-R": 0.12121,
+        "Box-F1": 0.20008,
+        "mAP50": 0.14703,
+        "mAP75": 0.11689,
+        "mAP50-95": 0.09755
+      }
+    ]
+  },
+  "baseline_test": {
+    "overall": {
+      "metrics/precision(B)": 0.5652577817923452,
+      "metrics/recall(B)": 0.21600985838915543,
+      "metrics/mAP50(B)": 0.23053718539638207,
+      "metrics/mAP50-95(B)": 0.16703107981640933,
+      "fitness": 0.16703107981640933
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 44,
+        "Instances": 118,
+        "Box-P": 0.63397,
+        "Box-R": 0.04237,
+        "Box-F1": 0.07944,
+        "mAP50": 0.05307,
+        "mAP75": 0.01358,
+        "mAP50-95": 0.02235
+      },
+      {
+        "Class": "car",
+        "Images": 93,
+        "Instances": 1371,
+        "Box-P": 0.63109,
+        "Box-R": 0.26203,
+        "Box-F1": 0.37031,
+        "mAP50": 0.29564,
+        "mAP75": 0.13987,
+        "mAP50-95": 0.15554
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 53,
+        "Instances": 492,
+        "Box-P": 0.64294,
+        "Box-R": 0.02564,
+        "Box-F1": 0.04932,
+        "mAP50": 0.06106,
+        "mAP75": 0.02374,
+        "mAP50-95": 0.02815
+      },
+      {
+        "Class": "bus",
+        "Images": 28,
+        "Instances": 30,
+        "Box-P": 0.5136,
+        "Box-R": 0.5,
+        "Box-F1": 0.50671,
+        "mAP50": 0.51922,
+        "mAP75": 0.50897,
+        "mAP50-95": 0.46244
+      },
+      {
+        "Class": "truck",
+        "Images": 50,
+        "Instances": 96,
+        "Box-P": 0.40469,
+        "Box-R": 0.25,
+        "Box-F1": 0.30907,
+        "mAP50": 0.22369,
+        "mAP75": 0.17729,
+        "mAP50-95": 0.16667
+      }
+    ]
+  },
+  "trained_test": {
+    "overall": {
+      "metrics/precision(B)": 0.45319335444916786,
+      "metrics/recall(B)": 0.2171810935042152,
+      "metrics/mAP50(B)": 0.22533235793929576,
+      "metrics/mAP50-95(B)": 0.1587782621954469,
+      "fitness": 0.1587782621954469
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 44,
+        "Instances": 118,
+        "Box-P": 0.39298,
+        "Box-R": 0.05499,
+        "Box-F1": 0.09648,
+        "mAP50": 0.05206,
+        "mAP75": 0.01241,
+        "mAP50-95": 0.01838
+      },
+      {
+        "Class": "car",
+        "Images": 93,
+        "Instances": 1371,
+        "Box-P": 0.4483,
+        "Box-R": 0.33406,
+        "Box-F1": 0.38284,
+        "mAP50": 0.31025,
+        "mAP75": 0.14489,
+        "mAP50-95": 0.15887
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 53,
+        "Instances": 492,
+        "Box-P": 0.47597,
+        "Box-R": 0.04268,
+        "Box-F1": 0.07834,
+        "mAP50": 0.07145,
+        "mAP75": 0.0199,
+        "mAP50-95": 0.02864
+      },
+      {
+        "Class": "bus",
+        "Images": 28,
+        "Instances": 30,
+        "Box-P": 0.6182,
+        "Box-R": 0.46667,
+        "Box-F1": 0.53185,
+        "mAP50": 0.52903,
+        "mAP75": 0.52365,
+        "mAP50-95": 0.46401
+      },
+      {
+        "Class": "truck",
+        "Images": 50,
+        "Instances": 96,
+        "Box-P": 0.33051,
+        "Box-R": 0.1875,
+        "Box-F1": 0.23926,
+        "mAP50": 0.16387,
+        "mAP75": 0.13455,
+        "mAP50-95": 0.12399
+      }
+    ]
+  },
+  "domain_evaluations": {
+    "coco": {
+      "trained_test": {
+        "overall": {
+          "metrics/precision(B)": 0.6467480870674721,
+          "metrics/recall(B)": 0.40782989429483063,
+          "metrics/mAP50(B)": 0.46828044990753714,
+          "metrics/mAP50-95(B)": 0.3176990327101743,
+          "fitness": 0.3176990327101743
+        },
+        "per_class": [
+          {
+            "Class": "bicycle",
+            "Images": 10,
+            "Instances": 24,
+            "Box-P": 0.57218,
+            "Box-R": 0.20833,
+            "Box-F1": 0.30545,
+            "mAP50": 0.24329,
+            "mAP75": 0.07626,
+            "mAP50-95": 0.09961
+          },
+          {
+            "Class": "car",
+            "Images": 49,
+            "Instances": 158,
+            "Box-P": 0.50674,
+            "Box-R": 0.38608,
+            "Box-F1": 0.43825,
+            "mAP50": 0.37716,
+            "mAP75": 0.19313,
+            "mAP50-95": 0.21052
+          },
+          {
+            "Class": "motorcycle",
+            "Images": 10,
+            "Instances": 25,
+            "Box-P": 0.86045,
+            "Box-R": 0.4,
+            "Box-F1": 0.54612,
+            "mAP50": 0.51969,
+            "mAP75": 0.28874,
+            "mAP50-95": 0.28228
+          },
+          {
+            "Class": "bus",
+            "Images": 19,
+            "Instances": 19,
+            "Box-P": 0.71963,
+            "Box-R": 0.68421,
+            "Box-F1": 0.70148,
+            "mAP50": 0.76419,
+            "mAP75": 0.75612,
+            "mAP50-95": 0.67519
+          },
+          {
+            "Class": "truck",
+            "Images": 28,
+            "Instances": 45,
+            "Box-P": 0.57474,
+            "Box-R": 0.36053,
+            "Box-F1": 0.4431,
+            "mAP50": 0.43707,
+            "mAP75": 0.34344,
+            "mAP50-95": 0.32089
+          }
+        ]
+      },
+      "baseline_test": {
+        "overall": {
+          "metrics/precision(B)": 0.6769841154750407,
+          "metrics/recall(B)": 0.444246629849152,
+          "metrics/mAP50(B)": 0.5050726744440597,
+          "metrics/mAP50-95(B)": 0.35016998385637393,
+          "fitness": 0.35016998385637393
+        },
+        "per_class": [
+          {
+            "Class": "bicycle",
+            "Images": 10,
+            "Instances": 24,
+            "Box-P": 0.71803,
+            "Box-R": 0.20833,
+            "Box-F1": 0.32296,
+            "mAP50": 0.24409,
+            "mAP75": 0.08184,
+            "mAP50-95": 0.11583
+          },
+          {
+            "Class": "car",
+            "Images": 49,
+            "Instances": 158,
+            "Box-P": 0.5959,
+            "Box-R": 0.39873,
+            "Box-F1": 0.47777,
+            "mAP50": 0.40482,
+            "mAP75": 0.21328,
+            "mAP50-95": 0.22929
+          },
+          {
+            "Class": "motorcycle",
+            "Images": 10,
+            "Instances": 25,
+            "Box-P": 0.73736,
+            "Box-R": 0.4,
+            "Box-F1": 0.51865,
+            "mAP50": 0.56087,
+            "mAP75": 0.36647,
+            "mAP50-95": 0.32669
+          },
+          {
+            "Class": "bus",
+            "Images": 19,
+            "Instances": 19,
+            "Box-P": 0.65213,
+            "Box-R": 0.69093,
+            "Box-F1": 0.67097,
+            "mAP50": 0.74911,
+            "mAP75": 0.72849,
+            "mAP50-95": 0.67004
+          },
+          {
+            "Class": "truck",
+            "Images": 28,
+            "Instances": 45,
+            "Box-P": 0.68151,
+            "Box-R": 0.52324,
+            "Box-F1": 0.59198,
+            "mAP50": 0.56647,
+            "mAP75": 0.43038,
+            "mAP50-95": 0.40901
+          }
+        ]
+      }
+    },
+    "visdrone": {
+      "trained_test": {
+        "overall": {
+          "metrics/precision(B)": 0.18739183938100917,
+          "metrics/recall(B)": 0.1103846551690183,
+          "metrics/mAP50(B)": 0.09937237427976148,
+          "metrics/mAP50-95(B)": 0.05732121501489355,
+          "fitness": 0.05732121501489355
+        },
+        "per_class": [
+          {
+            "Class": "bicycle",
+            "Images": 34,
+            "Instances": 94,
+            "Box-P": 0.08028,
+            "Box-R": 0.01064,
+            "Box-F1": 0.01879,
+            "mAP50": 0.00647,
+            "mAP75": 0.0,
+            "mAP50-95": 0.00118
+          },
+          {
+            "Class": "car",
+            "Images": 44,
+            "Instances": 1213,
+            "Box-P": 0.37506,
+            "Box-R": 0.38747,
+            "Box-F1": 0.38116,
+            "mAP50": 0.30319,
+            "mAP75": 0.13937,
+            "mAP50-95": 0.15345
+          },
+          {
+            "Class": "motorcycle",
+            "Images": 43,
+            "Instances": 467,
+            "Box-P": 0.29716,
+            "Box-R": 0.04283,
+            "Box-F1": 0.07486,
+            "mAP50": 0.04512,
+            "mAP75": 0.00585,
+            "mAP50-95": 0.01368
+          },
+          {
+            "Class": "bus",
+            "Images": 9,
+            "Instances": 11,
+            "Box-P": 0.16729,
+            "Box-R": 0.09138,
+            "Box-F1": 0.1182,
+            "mAP50": 0.13874,
+            "mAP75": 0.1369,
+            "mAP50-95": 0.11699
+          },
+          {
+            "Class": "truck",
+            "Images": 22,
+            "Instances": 51,
+            "Box-P": 0.01717,
+            "Box-R": 0.01961,
+            "Box-F1": 0.01831,
+            "mAP50": 0.00334,
+            "mAP75": 0.00054,
+            "mAP50-95": 0.0013
+          }
+        ]
+      },
+      "baseline_test": {
+        "overall": {
+          "metrics/precision(B)": 0.20079180653451417,
+          "metrics/recall(B)": 0.09869154780605971,
+          "metrics/mAP50(B)": 0.09546378302081325,
+          "metrics/mAP50-95(B)": 0.05825065183116226,
+          "fitness": 0.05825065183116226
+        },
+        "per_class": [
+          {
+            "Class": "bicycle",
+            "Images": 34,
+            "Instances": 94,
+            "Box-P": 0.0,
+            "Box-R": 0.0,
+            "Box-F1": 0.0,
+            "mAP50": 0.00233,
+            "mAP75": 0.0,
+            "mAP50-95": 0.00048
+          },
+          {
+            "Class": "car",
+            "Images": 44,
+            "Instances": 1213,
+            "Box-P": 0.53441,
+            "Box-R": 0.28672,
+            "Box-F1": 0.3732,
+            "mAP50": 0.28744,
+            "mAP75": 0.13374,
+            "mAP50-95": 0.14883
+          },
+          {
+            "Class": "motorcycle",
+            "Images": 43,
+            "Instances": 467,
+            "Box-P": 0.30523,
+            "Box-R": 0.01131,
+            "Box-F1": 0.02182,
+            "mAP50": 0.0311,
+            "mAP75": 0.00316,
+            "mAP50-95": 0.00966
+          },
+          {
+            "Class": "bus",
+            "Images": 9,
+            "Instances": 11,
+            "Box-P": 0.1533,
+            "Box-R": 0.18182,
+            "Box-F1": 0.16634,
+            "mAP50": 0.15074,
+            "mAP75": 0.14649,
+            "mAP50-95": 0.12954
+          },
+          {
+            "Class": "truck",
+            "Images": 22,
+            "Instances": 51,
+            "Box-P": 0.01102,
+            "Box-R": 0.01361,
+            "Box-F1": 0.01218,
+            "mAP50": 0.0057,
+            "mAP75": 0.00243,
+            "mAP50-95": 0.00275
+          }
+        ]
+      }
+    }
+  },
+  "bus_regression_check": {
+    "image": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\.venv\\Lib\\site-packages\\ultralytics\\assets\\bus.jpg",
+    "confidence_threshold": 0.35,
+    "note": "Qualitative packaged-image regression check, not an accuracy measurement.",
+    "trained_detections": [
+      {
+        "class": "bus",
+        "confidence": 0.5471590161323547
+      },
+      {
+        "class": "truck",
+        "confidence": 0.390496164560318
+      }
+    ],
+    "baseline_detections": [
+      {
+        "class": "bus",
+        "confidence": 0.7339052557945251
+      }
+    ],
+    "bus_retained": true
+  },
+  "active_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\yolo26n.pt",
+  "automatic_promotion": false,
+  "elapsed_seconds": 468.6,
+  "limitations": [
+    "General COCO vehicle imagery plus aerial VisDrone scenes; not BMTC camera footage.",
+    "COCO val2017 images are held out from this fine-tuning, but belong to the baseline model's original benchmark.",
+    "COCO images with crowd vehicle annotations are excluded; nonvehicle categories are omitted.",
+    "VisDrone ignored regions are omitted; these are custom subset metrics, not official challenge scores.",
+    "Only vehicle-positive images are sampled; road-scene negatives and local footage are still needed.",
+    "Only five vehicle classes were fine-tuned; the original COCO class IDs/head were retained.",
+    "Traffic-level thresholds, tracking, flow and speed were not trained.",
+    "The original default checkpoint is preserved. Use --model to select the trained checkpoint."
+  ],
+  "post_training_review": {
+    "decision": "retain_pretrained_default",
+    "active_model": "models/yolo26n.pt",
+    "candidate_model": "models\\vehicles_20260916T163645Z.pt",
+    "reason": "Candidate scored below baseline on mixed and COCO test sets and double-counted the sample bus as an overlapping truck.",
+    "checkpoint_integrity": "SHA256 matched the training report; 261 weight/bias tensors changed from the original pretrained model.",
+    "positive_video": "outputs\\mixed-trained-positive-check\\20260916T164449_833935Z",
+    "frames_with_bus": 12,
+    "frames_processed": 12,
+    "first_frame_bus_truck_iou": 0.975069804345139,
+    "road_video": "outputs\\mixed-trained-road-check\\20260916T164529_149326Z",
+    "road_frames_processed": 60,
+    "road_max_visible_vehicles": 0,
+    "limitations": "The synthetic pan and unlabelled road excerpt are pipeline checks, not held-out accuracy measurements."
+  }
+}

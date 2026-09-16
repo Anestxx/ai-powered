@@ -1,23 +1,18 @@
 .env
+.env.*
+!.env.example
+!.env.sample
 .venv/
 node_modules/
 build/
 __pycache__/
 .pytest_cache/
+.cache/
+*.cache
 *.py[cod]
 
-# Generated training and inference artifacts
-01_ai_edge/outputs/
-01_ai_edge/runs/
-01_ai_edge/**/*.npy
-01_ai_edge/**/*.mp4
-
-# Local model checkpoints; store large weights outside the source repository
-01_ai_edge/**/*.pt
-
-# Dataset images are local training inputs; keep labels, configs, and guides
-01_ai_edge/datasets/**/images/*
-water logging.v3i.yolov8/**/images/*
+# Models, videos, and saved experiment artifacts use Git LFS.
+# Downloadable Traffic AI training datasets are excluded in traffic-ai/.gitignore.
 
 # IDE and OS files
 .vscode/

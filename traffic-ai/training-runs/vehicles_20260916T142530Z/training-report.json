@@ -1,0 +1,318 @@
+{
+  "status": "completed",
+  "completed_epochs": 8,
+  "dataset": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\datasets\\visdrone_vehicles_512_96_96_seed42\\data.yaml",
+  "dataset_splits": {
+    "train": {
+      "images": 512,
+      "object_counts": {
+        "car": 11132,
+        "bus": 491,
+        "bicycle": 840,
+        "motorcycle": 2231,
+        "truck": 829
+      }
+    },
+    "val": {
+      "images": 96,
+      "object_counts": {
+        "truck": 129,
+        "car": 2149,
+        "bus": 24,
+        "motorcycle": 820,
+        "bicycle": 210
+      }
+    },
+    "test": {
+      "images": 96,
+      "object_counts": {
+        "bicycle": 183,
+        "car": 2311,
+        "truck": 110,
+        "motorcycle": 1044,
+        "bus": 21
+      }
+    }
+  },
+  "base_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\yolo26n.pt",
+  "trained_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\vehicles_20260916T142530Z.pt",
+  "sha256": "42030a15e13848baf348b125cd440ae04711a2fc2b94341f677b8717c2299d56",
+  "device": "cpu",
+  "image_size": 416,
+  "batch": 2,
+  "frozen_backbone_layers": 10,
+  "pytorch": "2.14.0+cpu",
+  "ultralytics": "8.4.153",
+  "baseline_validation": {
+    "overall": {
+      "metrics/precision(B)": 0.5961643688110266,
+      "metrics/recall(B)": 0.13662208036887977,
+      "metrics/mAP50(B)": 0.11321346728879819,
+      "metrics/mAP50-95(B)": 0.07133746228197485,
+      "fitness": 0.07133746228197485
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 57,
+        "Instances": 210,
+        "Box-P": 1.0,
+        "Box-R": 0.0,
+        "Box-F1": 0.0,
+        "mAP50": 0.00148,
+        "mAP75": 0.0,
+        "mAP50-95": 0.00026
+      },
+      {
+        "Class": "car",
+        "Images": 94,
+        "Instances": 2149,
+        "Box-P": 0.66335,
+        "Box-R": 0.29595,
+        "Box-F1": 0.4093,
+        "mAP50": 0.32481,
+        "mAP75": 0.19717,
+        "mAP50-95": 0.18894
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 80,
+        "Instances": 820,
+        "Box-P": 0.89312,
+        "Box-R": 0.01022,
+        "Box-F1": 0.02021,
+        "mAP50": 0.03969,
+        "mAP75": 0.00659,
+        "mAP50-95": 0.01074
+      },
+      {
+        "Class": "bus",
+        "Images": 16,
+        "Instances": 24,
+        "Box-P": 0.2376,
+        "Box-R": 0.29167,
+        "Box-F1": 0.26187,
+        "mAP50": 0.16568,
+        "mAP75": 0.16193,
+        "mAP50-95": 0.13871
+      },
+      {
+        "Class": "truck",
+        "Images": 41,
+        "Instances": 129,
+        "Box-P": 0.18675,
+        "Box-R": 0.08527,
+        "Box-F1": 0.11708,
+        "mAP50": 0.0344,
+        "mAP75": 0.01837,
+        "mAP50-95": 0.01804
+      }
+    ]
+  },
+  "trained_validation": {
+    "overall": {
+      "metrics/precision(B)": 0.37482046433015415,
+      "metrics/recall(B)": 0.18336938760050644,
+      "metrics/mAP50(B)": 0.17377817866808523,
+      "metrics/mAP50-95(B)": 0.10422935826639579,
+      "fitness": 0.10422935826639579
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 57,
+        "Instances": 210,
+        "Box-P": 0.0,
+        "Box-R": 0.0,
+        "Box-F1": 0.0,
+        "mAP50": 0.00351,
+        "mAP75": 2e-05,
+        "mAP50-95": 0.00064
+      },
+      {
+        "Class": "car",
+        "Images": 94,
+        "Instances": 2149,
+        "Box-P": 0.41199,
+        "Box-R": 0.47092,
+        "Box-F1": 0.43949,
+        "mAP50": 0.4084,
+        "mAP75": 0.24408,
+        "mAP50-95": 0.23379
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 80,
+        "Instances": 820,
+        "Box-P": 0.3478,
+        "Box-R": 0.1,
+        "Box-F1": 0.15534,
+        "mAP50": 0.0833,
+        "mAP75": 0.008,
+        "mAP50-95": 0.02436
+      },
+      {
+        "Class": "bus",
+        "Images": 16,
+        "Instances": 24,
+        "Box-P": 0.7177,
+        "Box-R": 0.29167,
+        "Box-F1": 0.41477,
+        "mAP50": 0.31228,
+        "mAP75": 0.2795,
+        "mAP50-95": 0.2296
+      },
+      {
+        "Class": "truck",
+        "Images": 41,
+        "Instances": 129,
+        "Box-P": 0.3966,
+        "Box-R": 0.05426,
+        "Box-F1": 0.09547,
+        "mAP50": 0.0614,
+        "mAP75": 0.03792,
+        "mAP50-95": 0.03276
+      }
+    ]
+  },
+  "baseline_test": {
+    "overall": {
+      "metrics/precision(B)": 0.18676683396153115,
+      "metrics/recall(B)": 0.10387305270673335,
+      "metrics/mAP50(B)": 0.08444133612385647,
+      "metrics/mAP50-95(B)": 0.04807215988543549,
+      "fitness": 0.04807215988543549
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 67,
+        "Instances": 183,
+        "Box-P": 0.0,
+        "Box-R": 0.0,
+        "Box-F1": 0.0,
+        "mAP50": 0.00048,
+        "mAP75": 4e-05,
+        "mAP50-95": 0.00012
+      },
+      {
+        "Class": "car",
+        "Images": 89,
+        "Instances": 2311,
+        "Box-P": 0.47461,
+        "Box-R": 0.32171,
+        "Box-F1": 0.38348,
+        "mAP50": 0.30533,
+        "mAP75": 0.15572,
+        "mAP50-95": 0.16553
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 88,
+        "Instances": 1044,
+        "Box-P": 0.37003,
+        "Box-R": 0.02969,
+        "Box-F1": 0.05498,
+        "mAP50": 0.03746,
+        "mAP75": 0.00317,
+        "mAP50-95": 0.01066
+      },
+      {
+        "Class": "bus",
+        "Images": 18,
+        "Instances": 21,
+        "Box-P": 0.04828,
+        "Box-R": 0.09524,
+        "Box-F1": 0.06408,
+        "mAP50": 0.06996,
+        "mAP75": 0.06854,
+        "mAP50-95": 0.05899
+      },
+      {
+        "Class": "truck",
+        "Images": 45,
+        "Instances": 110,
+        "Box-P": 0.04091,
+        "Box-R": 0.07273,
+        "Box-F1": 0.05237,
+        "mAP50": 0.00898,
+        "mAP75": 0.00536,
+        "mAP50-95": 0.00506
+      }
+    ]
+  },
+  "trained_test": {
+    "overall": {
+      "metrics/precision(B)": 0.23721085994377256,
+      "metrics/recall(B)": 0.16102443155025256,
+      "metrics/mAP50(B)": 0.13413432243075504,
+      "metrics/mAP50-95(B)": 0.07187489931659705,
+      "fitness": 0.07187489931659705
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 67,
+        "Instances": 183,
+        "Box-P": 0.0,
+        "Box-R": 0.0,
+        "Box-F1": 0.0,
+        "mAP50": 0.00404,
+        "mAP75": 1e-05,
+        "mAP50-95": 0.00078
+      },
+      {
+        "Class": "car",
+        "Images": 89,
+        "Instances": 2311,
+        "Box-P": 0.40563,
+        "Box-R": 0.51839,
+        "Box-F1": 0.45513,
+        "mAP50": 0.43518,
+        "mAP75": 0.20805,
+        "mAP50-95": 0.2264
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 88,
+        "Instances": 1044,
+        "Box-P": 0.35074,
+        "Box-R": 0.08716,
+        "Box-F1": 0.13963,
+        "mAP50": 0.07645,
+        "mAP75": 0.00982,
+        "mAP50-95": 0.02323
+      },
+      {
+        "Class": "bus",
+        "Images": 18,
+        "Instances": 21,
+        "Box-P": 0.37098,
+        "Box-R": 0.19048,
+        "Box-F1": 0.25171,
+        "mAP50": 0.14929,
+        "mAP75": 0.14735,
+        "mAP50-95": 0.10594
+      },
+      {
+        "Class": "truck",
+        "Images": 45,
+        "Instances": 110,
+        "Box-P": 0.0587,
+        "Box-R": 0.00909,
+        "Box-F1": 0.01574,
+        "mAP50": 0.00571,
+        "mAP75": 0.00305,
+        "mAP50-95": 0.00302
+      }
+    ]
+  },
+  "elapsed_seconds": 784.7,
+  "limitations": [
+    "Small public aerial-image subset, not Bengaluru/BMTC bus-camera footage.",
+    "Only five vehicle classes were fine-tuned; the original COCO class IDs/head were retained.",
+    "Traffic-level thresholds, tracking, flow and speed were not trained.",
+    "Subset YOLO metrics omit VisDrone ignored regions; they are not official benchmark scores.",
+    "The original default checkpoint is preserved. Use --model to select the trained checkpoint."
+  ]
+}

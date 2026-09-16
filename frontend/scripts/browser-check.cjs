@@ -1,0 +1,90 @@
+// Run against a hidden Chrome instance started with --remote-debugging-port=9222.
+// Read-only live API checks; all populated data comes from the isolated UI demo.
+const fs = require('node:fs');
+const path = require('node:path');
+const os = require('node:os');
+const assert = require('node:assert/strict');
+
+async function main() {
+  const tabs = await (await fetch('http://localhost:9222/json')).json();
+  const tab = tabs.find(item => item.type === 'page');
+  const socket = new WebSocket(tab.webSocketDebuggerUrl);
+  await new Promise(resolve => socket.addEventListener('open', resolve, { once: true }));
+  let id = 0;
+  const pending = new Map(), errors = [], streams = [];
+  socket.addEventListener('message', ({ data }) => {
+    const message = JSON.parse(data);
+    if (message.id) {
+      const job = pending.get(message.id);
+      pending.delete(message.id);
+      message.error ? job.reject(new Error(message.error.message)) : job.resolve(message.result);
+    }
+    if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails.text);
+    if (message.method === 'Network.webSocketHandshakeResponseReceived') streams.push(message.params.response.status);
+  });
+  const send = (method, params = {}) => new Promise((resolve, reject) => { pending.set(++id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
+  const evaluate = async expression => {
+    const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
+    if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
+    return result.result?.value;
+  };
+  const waitFor = async expression => {
+    for (let attempt = 0; attempt < 150; attempt++) {
+      if (await evaluate(expression)) return;
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+    throw new Error(`Timed out: ${expression}\n${await evaluate('document.body.innerText.slice(0, 4500)')}`);
+  };
+  const click = text => evaluate(`(()=>{const button=[...document.querySelectorAll('button')].find(x=>x.textContent.trim()===${JSON.stringify(text)});if(!button)throw new Error('Button missing');button.click()})()`);
+  const screenshot = async name => {
+    const file = path.join(os.tmpdir(), `citylens-${name}.png`);
+    const { data } = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true });
+    fs.writeFileSync(file, Buffer.from(data, 'base64'));
+    console.log(`Screenshot: ${file}`);
+  };
+  try {
+    await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
+    await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1060, deviceScaleFactor: 1, mobile: false });
+    await send('Page.navigate', { url: 'http://localhost:3000/#overview' });
+    await waitFor(`document.body.innerText.includes('Backend connected') && document.body.innerText.includes('LIVE EVENT FEED')`);
+    const live = await (await fetch('http://localhost:3000/api/v1/events?page_size=1')).json();
+    await waitFor(`document.querySelector('.summary-number')?.textContent===${JSON.stringify(live.total.toLocaleString())}`);
+    await screenshot('live-desktop');
+    await click('Explore demo');
+    await waitFor(`document.querySelector('.summary-number')?.textContent==='12' && document.querySelectorAll('.leaflet-interactive').length>=10`);
+    await screenshot('demo-desktop');
+    await evaluate(`document.querySelector('button[aria-label="Filter by Waterlogging"]').click()`);
+    await waitFor(`document.querySelectorAll('tbody tr').length===2`);
+    await evaluate(`document.querySelector('.table-event').click()`);
+    await waitFor(`!!document.querySelector('[role="dialog"]')`);
+    assert.match(await evaluate(`document.querySelector('[role="dialog"]').innerText`), /Sample incident/);
+    await evaluate(`document.querySelector('button[aria-label="Close dialog"]').click()`);
+    await click('Reset filters');
+    await waitFor(`document.querySelectorAll('tbody tr').length===12`);
+    await click('Live map');
+    await waitFor(`!!document.querySelector('.nearby-form')`);
+    await click('Search area');
+    await waitFor(`document.body.innerText.includes('Within 5 km')`);
+    await click('Overview');
+    await click('Reset filters');
+    await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await waitFor(`window.innerWidth===390`);
+    assert.equal(await evaluate('document.documentElement.scrollWidth > window.innerWidth'), false, 'Mobile page must not overflow horizontally');
+    await screenshot('demo-mobile');
+    await click('Staff workspace');
+    assert.equal(await evaluate(`document.querySelector('fieldset').disabled`), true, 'Demo staff mutations must be disabled');
+    await click('Return to live data');
+    await waitFor(`document.querySelector('.sidebar-health').textContent.includes('Backend connected') && !document.querySelector('.demo-banner')`);
+    await evaluate(`document.querySelector('.account-button').click()`);
+    await waitFor(`document.querySelector('[role="dialog"]')?.innerText.includes('Staff sign in')`);
+    await screenshot('login-mobile');
+    await evaluate(`document.querySelector('button[aria-label="Close dialog"]').click()`);
+    await click('System status');
+    await waitFor(`document.querySelector('.service-grid')?.innerText.includes('Connected')`);
+    await screenshot('system-mobile');
+    assert.deepEqual(errors, [], 'No browser runtime exceptions');
+    assert(streams.includes(101), 'Live WebSocket must complete its handshake through the frontend proxy');
+    console.log('PASS: live API + WebSocket, demo isolation, filters, details, area search, responsive layout, staff guard, sign-in dialog, system status.');
+  } finally { socket.close(); }
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

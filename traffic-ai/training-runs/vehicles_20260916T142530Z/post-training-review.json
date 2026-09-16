@@ -1,0 +1,9 @@
+{
+  "decision": "retain_pretrained_default",
+  "reason": "The aerial-only fine-tuned checkpoint missed the bus in the packaged ground-level sample.",
+  "video_check": "outputs/trained-positive-check/20260916T161303_082564Z/summary.json",
+  "frames_processed": 12,
+  "maximum_detected_vehicles": 0,
+  "scope": "Qualitative regression on a synthetic pan of bus.jpg; not a held-out accuracy score.",
+  "next_experiment": "COCO and VisDrone mixture initialized from the original pretrained weights."
+}

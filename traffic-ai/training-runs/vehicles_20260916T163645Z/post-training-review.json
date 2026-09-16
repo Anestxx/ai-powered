@@ -1,0 +1,15 @@
+{
+  "decision": "retain_pretrained_default",
+  "active_model": "models/yolo26n.pt",
+  "candidate_model": "models\\vehicles_20260916T163645Z.pt",
+  "reason": "Candidate scored below baseline on mixed and COCO test sets and double-counted the sample bus as an overlapping truck.",
+  "checkpoint_integrity": "SHA256 matched the training report; 261 weight/bias tensors changed from the original pretrained model.",
+  "positive_video": "outputs\\mixed-trained-positive-check\\20260916T164449_833935Z",
+  "frames_with_bus": 12,
+  "frames_processed": 12,
+  "first_frame_bus_truck_iou": 0.975069804345139,
+  "road_video": "outputs\\mixed-trained-road-check\\20260916T164529_149326Z",
+  "road_frames_processed": 60,
+  "road_max_visible_vehicles": 0,
+  "limitations": "The synthetic pan and unlabelled road excerpt are pipeline checks, not held-out accuracy measurements."
+}

@@ -1,0 +1,134 @@
+{
+  "validation": {
+    "overall": {
+      "metrics/precision(B)": 0.6026042389848979,
+      "metrics/recall(B)": 0.26845431749997095,
+      "metrics/mAP50(B)": 0.27774883660077676,
+      "metrics/mAP50-95(B)": 0.19336420758975859,
+      "fitness": 0.19336420758975859
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 43,
+        "Instances": 104,
+        "Box-P": 0.66189,
+        "Box-R": 0.125,
+        "Box-F1": 0.21029,
+        "mAP50": 0.13395,
+        "mAP75": 0.09431,
+        "mAP50-95": 0.08643
+      },
+      {
+        "Class": "car",
+        "Images": 94,
+        "Instances": 1154,
+        "Box-P": 0.56,
+        "Box-R": 0.3827,
+        "Box-F1": 0.45468,
+        "mAP50": 0.37374,
+        "mAP75": 0.22962,
+        "mAP50-95": 0.21201
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 57,
+        "Instances": 428,
+        "Box-P": 0.72189,
+        "Box-R": 0.08178,
+        "Box-F1": 0.14691,
+        "mAP50": 0.12554,
+        "mAP75": 0.05638,
+        "mAP50-95": 0.06194
+      },
+      {
+        "Class": "bus",
+        "Images": 15,
+        "Instances": 19,
+        "Box-P": 0.49649,
+        "Box-R": 0.63158,
+        "Box-F1": 0.55595,
+        "mAP50": 0.60849,
+        "mAP75": 0.59966,
+        "mAP50-95": 0.50889
+      },
+      {
+        "Class": "truck",
+        "Images": 51,
+        "Instances": 99,
+        "Box-P": 0.57275,
+        "Box-R": 0.12121,
+        "Box-F1": 0.20008,
+        "mAP50": 0.14703,
+        "mAP75": 0.11689,
+        "mAP50-95": 0.09755
+      }
+    ]
+  },
+  "test": {
+    "overall": {
+      "metrics/precision(B)": 0.45319335444916786,
+      "metrics/recall(B)": 0.2171810935042152,
+      "metrics/mAP50(B)": 0.22533235793929576,
+      "metrics/mAP50-95(B)": 0.1587782621954469,
+      "fitness": 0.1587782621954469
+    },
+    "per_class": [
+      {
+        "Class": "bicycle",
+        "Images": 44,
+        "Instances": 118,
+        "Box-P": 0.39298,
+        "Box-R": 0.05499,
+        "Box-F1": 0.09648,
+        "mAP50": 0.05206,
+        "mAP75": 0.01241,
+        "mAP50-95": 0.01838
+      },
+      {
+        "Class": "car",
+        "Images": 93,
+        "Instances": 1371,
+        "Box-P": 0.4483,
+        "Box-R": 0.33406,
+        "Box-F1": 0.38284,
+        "mAP50": 0.31025,
+        "mAP75": 0.14489,
+        "mAP50-95": 0.15887
+      },
+      {
+        "Class": "motorcycle",
+        "Images": 53,
+        "Instances": 492,
+        "Box-P": 0.47597,
+        "Box-R": 0.04268,
+        "Box-F1": 0.07834,
+        "mAP50": 0.07145,
+        "mAP75": 0.0199,
+        "mAP50-95": 0.02864
+      },
+      {
+        "Class": "bus",
+        "Images": 28,
+        "Instances": 30,
+        "Box-P": 0.6182,
+        "Box-R": 0.46667,
+        "Box-F1": 0.53185,
+        "mAP50": 0.52903,
+        "mAP75": 0.52365,
+        "mAP50-95": 0.46401
+      },
+      {
+        "Class": "truck",
+        "Images": 50,
+        "Instances": 96,
+        "Box-P": 0.33051,
+        "Box-R": 0.1875,
+        "Box-F1": 0.23926,
+        "mAP50": 0.16387,
+        "mAP75": 0.13455,
+        "mAP50-95": 0.12399
+      }
+    ]
+  }
+}

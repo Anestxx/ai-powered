@@ -1,161 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { ArrowDownToLine, ArrowRight, ChevronLeft, ChevronRight, MapPin, Search, SlidersHorizontal, X } from 'lucide-react';
+import { Badge, EmptyState, TypeIcon } from './UI';
+import { coordinates, EVENT_TYPES, exportEvents, fullDate, PAGE_SIZE, STATUSES, timeAgo, typeLabel } from '../lib/events';
 
-const initialAlerts = [
-  { id: 1, type: 'Accident', location: 'Ring Road, Sector 14', severity: 'Critical', time: '5 min ago', bus: 'KA-01-2345', onRoute: true, action: 'Avoid this road. Reroute via 100 Ft Road.' },
-  { id: 2, type: 'Pothole', location: 'MG Road, near Metro Station', severity: 'High', time: '2 min ago', bus: 'KA-05-1122', onRoute: true, action: 'Drive slowly. Two-wheeler risk.' },
-  { id: 3, type: 'Waterlogging', location: 'Underpass, Anna Salai', severity: 'Medium', time: '12 min ago', bus: 'KA-03-7788', onRoute: false, action: 'Water level rising. Avoid if possible.' },
-  { id: 4, type: 'Traffic Jam', location: 'Outer Ring Road', severity: 'High', time: '18 min ago', bus: 'KA-02-9911', onRoute: false, action: 'Expect 15 min delay.' },
-  { id: 5, type: 'Helmet Violation', location: 'Silk Board Junction', severity: 'Medium', time: '22 min ago', bus: 'KA-07-4455', onRoute: false, action: 'Enforcement zone.' },
-];
-
-const incomingAlerts = [
-  { type: 'Pothole', location: 'Hosur Road, Bommanahalli', severity: 'High', bus: 'KA-04-3321', action: 'Drive carefully.' },
-  { type: 'Accident', location: 'Old Airport Road', severity: 'Critical', bus: 'KA-06-8899', action: 'Reroute recommended.' },
-  { type: 'Waterlogging', location: 'KR Puram Bridge', severity: 'Medium', bus: 'KA-08-2233', action: 'Slow traffic expected.' },
-  { type: 'Traffic Jam', location: 'Bellandur Junction', severity: 'High', bus: 'KA-09-6677', action: 'Expect delay.' },
-];
-
-const severityColor = (s) => {
-  if (s === 'Critical') return '#ef4444';
-  if (s === 'High') return '#f97316';
-  if (s === 'Medium') return '#eab308';
-  return '#22c55e';
-};
-
-function AlertsPanel() {
-  const [alerts, setAlerts] = useState(initialAlerts);
-  const [filter, setFilter] = useState('myRoute');
-
-  // Simulate live new alerts every 8 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const template = incomingAlerts[Math.floor(Math.random() * incomingAlerts.length)];
-      const newAlert = {
-        id: Date.now(),
-        ...template,
-        time: 'just now',
-        onRoute: Math.random() > 0.5,
-      };
-      setAlerts(prev => [newAlert, ...prev].slice(0, 8));
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const filtered = filter === 'myRoute'
-    ? alerts.filter(a => a.onRoute)
-    : alerts;
-
-  return (
-    <div>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <h2 style={{ fontSize: 22 }}>Live Alerts</h2>
-        <span style={{ fontSize: 12, color: '#22c55e', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }}></span>
-          LIVE
-        </span>
-      </div>
-      <p style={{ color: '#94a3b8', marginBottom: 20, fontSize: 13 }}>
-        Detected in real-time by the public transport fleet
-      </p>
-
-      {/* Filter toggle */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
-        <button
-          onClick={() => setFilter('myRoute')}
-          style={{
-            background: filter === 'myRoute' ? '#0ea5e9' : '#1e293b',
-            color: 'white', border: 'none', padding: '8px 16px',
-            borderRadius: 20, fontSize: 13, cursor: 'pointer'
-          }}
-        >
-          My Route ({alerts.filter(a => a.onRoute).length})
-        </button>
-        <button
-          onClick={() => setFilter('all')}
-          style={{
-            background: filter === 'all' ? '#0ea5e9' : '#1e293b',
-            color: 'white', border: 'none', padding: '8px 16px',
-            borderRadius: 20, fontSize: 13, cursor: 'pointer'
-          }}
-        >
-          All City ({alerts.length})
-        </button>
-      </div>
-
-      {/* Alerts list */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {filtered.length === 0 && (
-          <p style={{ color: '#64748b', fontSize: 14 }}>No alerts on your route. Smooth sailing. 🚌</p>
-        )}
-
-        {filtered.map(alert => (
-          <div
-            key={alert.id}
-            style={{
-              background: '#1e293b',
-              borderLeft: `4px solid ${severityColor(alert.severity)}`,
-              borderRadius: 8,
-              padding: 16,
-              animation: alert.time === 'just now' ? 'fadeIn 0.6s ease' : 'none',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <span style={{
-                    background: severityColor(alert.severity),
-                    color: 'white',
-                    padding: '2px 8px',
-                    borderRadius: 10,
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: 0.5
-                  }}>
-                    {alert.severity.toUpperCase()}
-                  </span>
-                  <span style={{ color: '#f1f5f9', fontSize: 15, fontWeight: 600 }}>
-                    {alert.type}
-                  </span>
-                  {alert.onRoute && (
-                    <span style={{
-                      background: '#1e40af',
-                      color: '#93c5fd',
-                      padding: '2px 8px',
-                      borderRadius: 10,
-                      fontSize: 10,
-                      fontWeight: 600
-                    }}>
-                      ON YOUR ROUTE
-                    </span>
-                  )}
-                </div>
-
-                <div style={{ color: '#cbd5e1', fontSize: 14, marginBottom: 6 }}>
-                  📍 {alert.location}
-                </div>
-
-                <div style={{ color: '#64748b', fontSize: 12, marginBottom: 8 }}>
-                  Detected {alert.time} · {alert.bus}
-                </div>
-
-                <div style={{ color: '#fbbf24', fontSize: 13, fontStyle: 'italic' }}>
-                  ⚠ {alert.action}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-    </div>
-  );
+export function EventFilters({ filters, setFilters, query, setQuery, nearby, clearNearby }) {
+  return <div className="filters">
+    <label className="search-input"><Search size={16} /><input aria-label="Search events on this page" placeholder="Search this page…" value={query} onChange={event => setQuery(event.target.value)} />{query && <button className="icon-button" onClick={() => setQuery('')} aria-label="Clear search"><X size={14} /></button>}</label>
+    {nearby ? <button className="filter-chip" onClick={clearNearby}><MapPin size={14} />Within {nearby.radius / 1000} km<X size={14} /></button> : <>
+      <SlidersHorizontal size={16} className="filter-icon" />
+      <select aria-label="Event type" value={filters.event_type} onChange={event => setFilters({ ...filters, event_type: event.target.value })}><option value="">All event types</option>{Object.entries(EVENT_TYPES).map(([value, type]) => <option key={value} value={value}>{type.label}</option>)}</select>
+      <select aria-label="Event status" value={filters.status} onChange={event => setFilters({ ...filters, status: event.target.value })}><option value="">All statuses</option>{Object.entries(STATUSES).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+      <select aria-label="Event severity" value={filters.severity} onChange={event => setFilters({ ...filters, severity: event.target.value })}><option value="">All severities</option>{['critical', 'high', 'medium', 'low'].map(value => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}</select>
+      <select aria-label="Event order" value={filters.order} onChange={event => setFilters({ ...filters, order: event.target.value })}><option value="desc">Latest first</option><option value="asc">Oldest first</option></select>
+    </>}
+  </div>;
 }
-
-export default AlertsPanel;
+export function EventFeed({ events, onSelect, loading, onDemo, demo }) {
+  return <div className="event-feed">
+    {events.length === 0 ? <EmptyState title={loading ? 'Loading incidents…' : 'No incidents yet'} action={!loading && !demo && <button className="button secondary small" onClick={onDemo}>Explore demo <ArrowRight size={14} /></button>}>{loading ? 'Fetching the latest observations.' : 'Events will appear here as connected vehicles report observations.'}</EmptyState>
+      : events.slice(0, 5).map(event => <button key={event.id} className="feed-item" onClick={() => onSelect(event)}><TypeIcon type={event.event_type} /><span className="feed-copy"><strong>{typeLabel(event.event_type)}</strong><span><MapPin size={11} />{coordinates(event)}</span><small>{timeAgo(event.last_seen)}<span>·</span>{STATUSES[event.status]}</small></span><span className="feed-trailing"><span className={`severity-dot ${event.severity}`} /><ArrowRight size={15} /></span></button>)}
+  </div>;
+}
+export default function AlertsPanel({ events, total, page, setPage, onSelect, loading, query, onReset, error }) {
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  return <section className="panel incidents-panel">
+    <div className="panel-heading"><div><h2>Incident register <span className="count-pill">{total}</span></h2><p>{query ? `${events.length} matches on this page` : 'Recorded observations, their confidence, and current status'}</p></div><button className="button secondary small" onClick={() => exportEvents(events)} disabled={!events.length}><ArrowDownToLine size={15} />Export page</button></div>
+    <div className="table-scroll"><table className="event-table"><thead><tr><th>Incident</th><th>Location</th><th>Severity</th><th>Status</th><th>Confidence</th><th>Observations</th><th>Last seen</th><th><span className="sr-only">Details</span></th></tr></thead><tbody>
+      {events.map(event => <tr key={event.id}><td><button className="table-event" onClick={() => onSelect(event)}><TypeIcon type={event.event_type} size={17} /><span><strong>{typeLabel(event.event_type)}</strong><small>#{event.id.slice(0, 8)}</small></span></button></td><td className="coordinates">{coordinates(event)}</td><td><Badge value={event.severity} /></td><td><Badge value={event.status} status /></td><td><span className="confidence-value">{Math.round(event.confidence * 100)}%<span className="confidence-track"><i style={{ width: `${event.confidence * 100}%` }} /></span></span></td><td>{event.observation_count}</td><td><time dateTime={event.last_seen} title={fullDate(event.last_seen)}>{timeAgo(event.last_seen)}</time></td><td><button className="icon-button" onClick={() => onSelect(event)} aria-label={`View ${typeLabel(event.event_type)} ${event.id}`}><ArrowRight size={17} /></button></td></tr>)}
+    </tbody></table></div>
+    {!events.length && <EmptyState title={loading ? 'Loading incidents…' : error ? 'Could not load incidents' : 'No matching incidents'} action={!loading && !error && <button className="button secondary small" onClick={onReset}>Clear filters</button>}>{error ? 'Retry the connection using the refresh button above.' : 'Try another filter or check back after new observations arrive.'}</EmptyState>}
+    <div className="table-footer"><span>{total ? `${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, total)} of ${total} events` : '0 events'}{loading && ' · Updating…'}</span><div className="pagination"><button className="icon-button" disabled={page <= 1 || loading} onClick={() => setPage(page - 1)} aria-label="Previous page"><ChevronLeft size={17} /></button><span>Page {page} of {pages}</span><button className="icon-button" disabled={page >= pages || loading} onClick={() => setPage(page + 1)} aria-label="Next page"><ChevronRight size={17} /></button></div></div>
+  </section>;
+}

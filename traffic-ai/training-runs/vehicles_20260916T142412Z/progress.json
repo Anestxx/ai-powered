@@ -1,0 +1,13 @@
+{
+  "stage": "failed",
+  "run_directory": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\training-runs\\vehicles_20260916T142412Z",
+  "pid": 33424,
+  "epochs_requested": 8,
+  "device": "cpu",
+  "image_size": 416,
+  "dataset": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\datasets\\visdrone_vehicles_512_96_96_seed42\\data.yaml",
+  "started_at": "2026-09-16T14:24:12.064982+00:00",
+  "elapsed_seconds": 0.0,
+  "updated_at": "2026-09-16T14:24:12.064982+00:00",
+  "error": "Baseline report could not serialize NumPy counts; fixed in the next run before training began."
+}

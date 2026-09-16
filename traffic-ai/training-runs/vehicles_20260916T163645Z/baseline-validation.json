@@ -1,0 +1,66 @@
+{
+  "overall": {
+    "metrics/precision(B)": 0.7291053890149033,
+    "metrics/recall(B)": 0.2561666243506486,
+    "metrics/mAP50(B)": 0.29094044102114136,
+    "metrics/mAP50-95(B)": 0.2067684134321331,
+    "fitness": 0.2067684134321331
+  },
+  "per_class": [
+    {
+      "Class": "bicycle",
+      "Images": 43,
+      "Instances": 104,
+      "Box-P": 0.74824,
+      "Box-R": 0.125,
+      "Box-F1": 0.21421,
+      "mAP50": 0.14722,
+      "mAP75": 0.09905,
+      "mAP50-95": 0.09156
+    },
+    {
+      "Class": "car",
+      "Images": 94,
+      "Instances": 1154,
+      "Box-P": 0.78139,
+      "Box-R": 0.29115,
+      "Box-F1": 0.42423,
+      "mAP50": 0.39818,
+      "mAP75": 0.24321,
+      "mAP50-95": 0.23366
+    },
+    {
+      "Class": "motorcycle",
+      "Images": 57,
+      "Instances": 428,
+      "Box-P": 0.8975,
+      "Box-R": 0.06139,
+      "Box-F1": 0.11492,
+      "mAP50": 0.10886,
+      "mAP75": 0.0657,
+      "mAP50-95": 0.06341
+    },
+    {
+      "Class": "bus",
+      "Images": 15,
+      "Instances": 19,
+      "Box-P": 0.64613,
+      "Box-R": 0.63158,
+      "Box-F1": 0.63877,
+      "mAP50": 0.60243,
+      "mAP75": 0.51818,
+      "mAP50-95": 0.5094
+    },
+    {
+      "Class": "truck",
+      "Images": 51,
+      "Instances": 99,
+      "Box-P": 0.57227,
+      "Box-R": 0.17172,
+      "Box-F1": 0.26417,
+      "mAP50": 0.19801,
+      "mAP75": 0.15851,
+      "mAP50-95": 0.13581
+    }
+  ]
+}

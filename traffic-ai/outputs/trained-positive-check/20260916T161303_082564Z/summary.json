@@ -1,0 +1,15 @@
+{
+  "frames_processed": 12,
+  "max_visible_vehicles": 0,
+  "traffic_level_frames": {
+    "LOW": 12
+  },
+  "source_fps": 10.0,
+  "processing_fps": 4.19,
+  "model": "models/vehicles_20260916T142530Z.pt",
+  "tracker": "botsort.yaml",
+  "roi_top": 0.3,
+  "metrics": "metrics.jsonl",
+  "annotated_video": "annotated.mp4",
+  "measurement_note": "Visible vehicle counts and image ROI box coverage; uncalibrated traffic labels, not flow or speed."
+}

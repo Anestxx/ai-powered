@@ -1,0 +1,27 @@
+{
+  "stage": "completed",
+  "run_directory": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\training-runs\\vehicles_20260916T142530Z",
+  "pid": 28020,
+  "epochs_requested": 8,
+  "device": "cpu",
+  "image_size": 416,
+  "dataset": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\datasets\\visdrone_vehicles_512_96_96_seed42\\data.yaml",
+  "started_at": "2026-09-16T14:25:30.359201+00:00",
+  "elapsed_seconds": 784.7,
+  "updated_at": "2026-09-16T14:38:35.012881+00:00",
+  "epoch": 8,
+  "batch": 235,
+  "batches_in_epoch": 256,
+  "metrics": {
+    "metrics/precision(B)": 0.37433,
+    "metrics/recall(B)": 0.18328,
+    "metrics/mAP50(B)": 0.17368,
+    "metrics/mAP50-95(B)": 0.10423,
+    "val/box_loss": 2.54631,
+    "val/cls_loss": 1.77118,
+    "val/l1_loss": 0.00595
+  },
+  "completed_epochs": 8,
+  "trained_model": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\models\\vehicles_20260916T142530Z.pt",
+  "report": "C:\\Users\\sakshi\\new sih\\ai-powered\\traffic-ai\\training-runs\\vehicles_20260916T142530Z\\training-report.json"
+}
