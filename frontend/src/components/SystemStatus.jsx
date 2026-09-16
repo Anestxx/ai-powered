@@ -4,7 +4,7 @@ import { API_BASE } from '../lib/api';
 
 export const MODULES = [
   { name: 'Event intelligence', description: 'Observation ingestion, spatial deduplication, confidence scoring, and incident review.', status: 'Available', tone: 'available' },
-  { name: 'Traffic AI', description: 'Local video analysis is available. Traffic results are not yet published to this dashboard.', status: 'Local only', tone: 'pending' },
+  { name: 'Traffic AI', description: 'Open Traffic AI to play recorded analyses and inspect saved vehicle counts. New inference still runs through the local pipeline.', status: 'Recorded analyses', tone: 'available' },
   { name: 'Helmet detection', description: 'A model checkpoint is supplied. Evaluation and a dashboard feed are pending.', status: 'Not connected', tone: 'pending' },
   { name: 'Road-hazard AI', description: 'Pothole and waterlogging inference needs the missing model weights and input assets.', status: 'Assets needed', tone: 'pending' },
   { name: 'Route planning', description: 'A routing service is not yet available. Use area search to inspect nearby recorded hazards.', status: 'Planned', tone: 'pending' },

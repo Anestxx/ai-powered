@@ -18,9 +18,12 @@ and database together. Open http://localhost:3000.
   longitude, and radius. Location access is requested only when you choose
   **My location**. The layer button includes resolved and rejected records.
 - **Incidents:** backend type/status/severity filters, ordering, pagination,
-  search within the current page, event details, and CSV export of visible rows.
-- **Staff workspace:** existing staff sign-in and vehicle registration. Open an
-  incident to load evidence or save a permitted status transition. The backend
+  search across all records, event details, and CSV export of visible rows.
+- **Traffic AI:** saved analysis summaries, frame classifications, vehicle counts,
+  and annotated recording playback from `traffic-ai/outputs/`.
+- **Staff workspace:** staff sign-in, searchable fleet, vehicle registration, and
+  observation submission. Open an incident to load evidence, assign a department,
+  or save a permitted status transition. The backend
   enforces account roles; tokens remain in memory and are cleared on reload,
   expiry, sign-out, or an authentication failure.
 - **System status:** API/database connectivity, live channel status, and the
@@ -31,8 +34,9 @@ feed. **Explore demo** opens 12 clearly labeled sample records without writing
 anything to the database; staff mutations are disabled in demo mode. Returning
 to live mode clears sample events and re-fetches the backend.
 
-Overview totals cover the entire backend inventory. The map, type breakdown,
-recent feed, search, and CSV export use the current page (up to 50 events).
+Overview totals and the type breakdown cover the entire backend inventory.
+Search and filters run on the backend before pagination. The map, recent feed,
+and CSV export use the current page (up to 50 events).
 Browse additional pages in the incident register. Nearby searches include active
 incidents only and sort them by distance.
 
@@ -56,9 +60,11 @@ backend and support WebSocket upgrades. Add the frontend origin to the backend's
 allowed origins. OpenStreetMap tiles require an internet connection; saved
 incident data remains available if map tiles cannot load.
 
-Traffic exports, helmet detections, and road-hazard inference are not yet live
-dashboard feeds. Routing and fleet listing do not have backend endpoints yet.
-Their current state is described in System status instead of simulated as live.
+Traffic recordings are saved analyses, not a live traffic feed. Helmet detections,
+road-hazard inference, and routing still need their respective model/backend work.
+Their current state is described in System status. The Docker API includes FFmpeg
+and mounts saved traffic outputs read-only. A directly launched API needs FFmpeg
+on PATH for recording playback; `TRAFFIC_OUTPUTS_DIR` can override the library path.
 
 ## Verification
 
@@ -75,5 +81,12 @@ WebSocket reconnects. They use mocked API responses and do not modify your datab
 real public API and its WebSocket proxy, then exercises demo mode and mobile
 layouts. It requires an isolated Chrome instance running with
 `--remote-debugging-port=9222`, and saves review screenshots in the OS temp folder.
+It also verifies saved recording playback. To exercise real staff writes without
+changing operational data, start `backend/scripts/browser_fixture.py` with
+`--credentials-file` pointing into the OS temp directory, then run
+`node scripts/preview-check.cjs` after building the frontend. Set `CITYLENS_URL`
+to `http://localhost:3001` and `CITYLENS_TEST_LOGIN_FILE` to that temporary file
+before running the browser check. The fixture uses API port 8017 and removes its
+own disposable database and credentials when stopped with Ctrl+C.
 
 The `legacy-codyssey/` and `legacy-root-flat/` directories retain earlier frontend copies for reference; they are not part of the active app.

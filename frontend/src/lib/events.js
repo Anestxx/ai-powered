@@ -44,11 +44,11 @@ export function distanceMetres(a, b) {
   return 6371000 * 2 * Math.asin(Math.sqrt(Math.min(1, h)));
 }
 
-export function filterDemo(events, filters, nearby, page) {
-  let items = events.filter(event => nearby
-    ? isActive(event) && distanceMetres(event, nearby) <= nearby.radius
-    : (!filters.event_type || event.event_type === filters.event_type) &&
-      (!filters.status || event.status === filters.status) && (!filters.severity || event.severity === filters.severity));
+export function filterDemo(events, filters, nearby, page, q = '') {
+  let items = events.filter(event => (!nearby || (isActive(event) && distanceMetres(event, nearby) <= nearby.radius)) &&
+      (!filters.event_type || event.event_type === filters.event_type) &&
+      (!filters.status || event.status === filters.status) && (!filters.severity || event.severity === filters.severity) &&
+      [event.id, typeLabel(event.event_type), STATUSES[event.status], event.severity, event.assigned_department, event.latitude, event.longitude].join(' ').toLowerCase().includes(q.toLowerCase()));
   items.sort((a, b) => nearby ? distanceMetres(a, nearby) - distanceMetres(b, nearby)
     : (new Date(b.last_seen) - new Date(a.last_seen)) * (filters.order === 'asc' ? -1 : 1));
   return { items: items.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE), total: items.length, page, page_size: PAGE_SIZE };

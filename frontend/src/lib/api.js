@@ -43,8 +43,5 @@ export async function api(path, { token, body, signal, ...options } = {}) {
 }
 
 export async function fetchSummary(signal) {
-  const [all, detected, repair, resolved] = await Promise.all(
-    ['', 'detected', 'under_repair', 'resolved'].map(status => api(`/events?page_size=1${status ? `&status=${status}` : ''}`, { signal }))
-  );
-  return { total: all.total, detected: detected.total, under_repair: repair.total, resolved: resolved.total };
+  return api('/dashboard/summary', { signal });
 }

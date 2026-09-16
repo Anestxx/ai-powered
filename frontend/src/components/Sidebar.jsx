@@ -1,10 +1,11 @@
 import React from 'react';
-import { Activity, ArrowUpRight, LayoutDashboard, Map, Radio, Server, ShieldCheck, TriangleAlert } from 'lucide-react';
+import { Activity, ArrowUpRight, Film, LayoutDashboard, Map, Radio, Server, ShieldCheck, TriangleAlert } from 'lucide-react';
 
 export const NAV_ITEMS = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
   { id: 'map', label: 'Live map', icon: Map },
   { id: 'events', label: 'Incidents', icon: TriangleAlert },
+  { id: 'traffic', label: 'Traffic AI', icon: Film },
   { id: 'operations', label: 'Staff workspace', icon: ShieldCheck },
   { id: 'system', label: 'System status', icon: Server },
 ];

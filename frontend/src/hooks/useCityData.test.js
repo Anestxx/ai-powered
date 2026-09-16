@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import useCityData from './useCityData';
+import useCityData from './useBackendData';
 import { DEFAULT_FILTERS } from '../lib/events';
 
 test('re-fetches REST after websocket messages and reconnects after a dropped connection', async () => {
