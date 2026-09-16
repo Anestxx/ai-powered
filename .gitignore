@@ -1,10 +1,8 @@
-# Python environments and caches
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-env/
 .env
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
 
 # Generated training and inference artifacts
 01_ai_edge/outputs/
