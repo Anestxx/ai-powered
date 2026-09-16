@@ -1,0 +1,10 @@
+# YOLO dataset definition for road-facing bus-CCTV accident scenes.
+# Each labelled image must contain one or more bounding boxes around the
+# collision / damaged vehicles / fallen rider that makes the incident visible.
+path: datasets/accident
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: accident
