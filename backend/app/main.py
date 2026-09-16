@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from app.api.router import router
+from app.api.workspace import router as workspace_router
+from app.api.traffic import router as traffic_router
 from app.core.config import get_settings
 from app.services.live import manager
 
@@ -16,6 +18,8 @@ app.add_middleware(CORSMiddleware, allow_origins=get_settings().allowed_origins,
                    allow_methods=["GET", "POST", "PATCH"],
                    allow_headers=["Content-Type", "Authorization", "X-Edge-Key"])
 app.include_router(router)
+app.include_router(workspace_router)
+app.include_router(traffic_router)
 
 
 @app.exception_handler(HTTPException)

@@ -12,6 +12,7 @@ from app.db.session import get_db
 from app.schemas import EventRead, Login, ObservationCreate, StatusUpdate, VehicleCreate
 from app.services.events import ingest, point
 from app.services.live import manager
+from app.services.filtering import filter_events
 
 router = APIRouter(prefix="/api/v1")
 dummy_hash = password_hasher.hash("dummy-login-timing-password")
@@ -32,7 +33,8 @@ def login(body: Login, db: Session = Depends(get_db)):
     valid = verify_password(body.password, user.password_hash if user else dummy_hash)
     if not user or not valid or not user.is_active:
         raise HTTPException(401, "Invalid credentials")
-    return {"access_token": create_token(user), "token_type": "bearer"}
+    return {"access_token": create_token(user), "token_type": "bearer",
+            "user": {"id": str(user.id), "email": user.email, "role": user.role}}
 
 
 @router.post("/vehicles", status_code=201, tags=["Vehicles"])
@@ -69,11 +71,9 @@ def paginated(db, query, page, page_size):
 def events(event_type: EventType | None = None, status: EventStatus | None = None,
            severity: Severity | None = None,
            page: int = Query(1, ge=1), page_size: int = Query(50, ge=1, le=100),
-           order: Literal["asc", "desc"] = "desc", db: Session = Depends(get_db)):
-    query = select(Event)
-    for column, value in ((Event.event_type, event_type), (Event.status, status), (Event.severity, severity)):
-        if value is not None:
-            query = query.where(column == value)
+           order: Literal["asc", "desc"] = "desc", q: str = Query('', max_length=200),
+           db: Session = Depends(get_db)):
+    query = filter_events(select(Event), event_type, status, severity, q)
     query = query.order_by(Event.last_seen.desc() if order == "desc" else Event.last_seen.asc(), Event.id)
     return paginated(db, query, page, page_size)
 
@@ -81,11 +81,13 @@ def events(event_type: EventType | None = None, status: EventStatus | None = Non
 @router.get("/events/nearby", tags=["Events"])
 def nearby(latitude: float = Query(ge=-90, le=90), longitude: float = Query(ge=-180, le=180),
            radius: float = Query(1000, gt=0, le=50000), page: int = Query(1, ge=1),
-           page_size: int = Query(50, ge=1, le=100), db: Session = Depends(get_db)):
+           page_size: int = Query(50, ge=1, le=100), event_type: EventType | None = None,
+           status: EventStatus | None = None, severity: Severity | None = None,
+           q: str = Query('', max_length=200), db: Session = Depends(get_db)):
     location = point(latitude, longitude)
     query = select(Event).where(Event.status.not_in(("resolved", "rejected")),
         func.ST_DWithin(Event.location, location, radius)).order_by(func.ST_Distance(Event.location, location), Event.id)
-    return paginated(db, query, page, page_size)
+    return paginated(db, filter_events(query, event_type, status, severity, q), page, page_size)
 
 
 @router.get("/events/{event_id}", response_model=EventRead, tags=["Events"])

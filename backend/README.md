@@ -88,9 +88,26 @@ $env:TEST_DATABASE_URL = 'postgresql+psycopg://urban:urban_local@127.0.0.1:5432/
 
 The PostGIS test skips explicitly without TEST_DATABASE_URL. It creates missing tables in that dedicated database and rolls back test data. Unit/API tests cover validation, edge authentication, JWT/password behavior, permissions and live connections.
 
+## Frontend integration
+
+The frontend also uses these implemented endpoints:
+
+- `GET /api/v1/auth/me`: authenticated staff identity and role; login also returns this profile.
+- `GET /api/v1/dashboard/summary`: global totals grouped by status and incident type.
+- `GET /api/v1/events?q=...`: global text search combined with filters and pagination; nearby search accepts the same filters.
+- `GET /api/v1/vehicles`: role-protected fleet search and pagination.
+- `POST /api/v1/staff/observations`: admin/transport ingestion using the existing validation, deduplication, and live broadcasts.
+- `PATCH /api/v1/events/{id}/assignment`: audited department assignment for admin/municipality staff.
+- `GET /api/v1/traffic/runs`, `/runs/{id}`, and `/runs/{id}/video`: saved analysis metadata and browser-compatible annotated recordings.
+
+The Docker API mounts `traffic-ai/outputs` read-only and includes FFmpeg. Video
+conversion is cached in the container's temporary directory. For a directly
+launched API, install FFmpeg on PATH and optionally set `TRAFFIC_OUTPUTS_DIR`.
+Saved analyses do not create live road events or calibrated traffic measurements.
+
 ## Next stages
 
-Traffic snapshots/road segments, vehicle telemetry endpoint, emergency expiration/alerts, suspected violation review, dashboard analytics, evidence uploads/object storage, user-management API, time-range filtering, demo data and scheduled confidence decay remain to be implemented. Auto-resolution must wait for bus pass-by evidence. Routing algorithms belong to the GIS team.
+Live traffic snapshots/road segments, vehicle telemetry endpoint, emergency expiration/alerts, suspected violation review, advanced dashboard analytics, evidence uploads/object storage, user-management API, time-range filtering, demo data and scheduled confidence decay remain to be implemented. Auto-resolution must wait for bus pass-by evidence. Routing algorithms belong to the GIS team.
 
 Before deployment add HTTPS at the proxy, per-device edge credentials, login rate limiting and a durable notification broker if using multiple workers. This is the initial backend milestone, not the entire 105-section platform.
 

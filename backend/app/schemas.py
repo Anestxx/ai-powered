@@ -51,6 +51,7 @@ class StatusUpdate(BaseModel):
 
 
 class VehicleCreate(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
     external_vehicle_id: str = Field(min_length=1, max_length=100)
     vehicle_type: str = Field(default="public_bus", min_length=1, max_length=50)
     route_id: str | None = Field(default=None, max_length=100)

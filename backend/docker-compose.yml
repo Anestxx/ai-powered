@@ -21,6 +21,9 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: postgresql+psycopg://urban:${POSTGRES_PASSWORD}@db:5432/urban_ai
+      TRAFFIC_OUTPUTS_DIR: /data/traffic-outputs
+    volumes:
+      - ../traffic-ai/outputs:/data/traffic-outputs:ro
     ports:
       - "8000:8000"
     depends_on:

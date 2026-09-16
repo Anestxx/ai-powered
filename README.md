@@ -96,7 +96,11 @@ Two detector fine-tuning experiments are saved; the original pretrained detector
 remains active because the new checkpoints did not improve overall performance.
 See [training results](traffic-ai/docs/TRAINING_RESULTS.md).
 
-Traffic measurements are not yet published to the backend. The helmet checkpoint
+The dashboard reads saved Traffic AI summaries and plays annotated recordings
+through the backend. Staff can register vehicles, submit observations, inspect
+evidence, assign departments, and update incident statuses. Search and dashboard
+totals use backend records, with WebSocket updates and polling fallback.
+Traffic inference is not a live ingestion feed. The helmet checkpoint
 has not been evaluated on this project's road footage. Calibrated congestion/speed,
 routing and automated alerts remain later work.
 
