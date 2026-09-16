@@ -16,7 +16,7 @@ def draw_detections(frame, detections, color):
     """Draw a labeled bounding box for each independent model detection."""
     for detection in detections:
         x1, y1, x2, y2 = detection["bbox"]
-        label = f'{detection["class_name"]} {detection["confidence"]:.2f}'
+        label = f'{detection.get("label", detection["class_name"])} {detection["confidence"]:.2f}'
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
         cv2.putText(frame, label, (x1, max(20, y1 - 8)), cv2.FONT_HERSHEY_SIMPLEX,
                     0.55, color, 2, cv2.LINE_AA)
@@ -38,8 +38,14 @@ def main():
     parser.add_argument("--imgsz", default=416, type=int,
                         help="YOLO inference size; use 320 for faster CPU processing or 640 for higher detail")
     parser.add_argument("--confirmation-frames", default=3, type=int)
+    default_accident_path = ROOT / "models" / "accident" / "best.pt"
     parser.add_argument("--accident-model", type=Path,
-                        help="Trained accident best.pt; enables accident detection")
+                        default=default_accident_path if default_accident_path.is_file() else None,
+                        help="Trained single-class accident best.pt; rejects generic COCO checkpoints")
+    parser.add_argument("--fall-detection", action="store_true",
+                        help="Use a conservative person-only fall fallback when no accident model exists")
+    parser.add_argument("--accident-only", action="store_true",
+                        help="Disable pothole and waterlogging models for accident-video testing")
     parser.add_argument("--save-evidence", action="store_true")
     parser.add_argument("--show", action="store_true",
                         help="Show the annotated detection video; press Q or Esc to stop")
@@ -52,6 +58,9 @@ def main():
         raise FileNotFoundError(f"Unable to open video: {args.video}. Add a real test video at "
                             f"{ROOT / 'videos' / 'road_test.mp4'} or pass --video <path>.")
     pipeline = RoadHazardPipeline(accident_model=args.accident_model,
+                                  fall_detection=args.fall_detection,
+                                  fall_model=ROOT / "yolo11n.pt",
+                                  accident_only=args.accident_only,
                                   confidence_threshold=args.confidence, image_size=args.imgsz)
     event_filter = TemporalEventFilter(required_frames=args.confirmation_frames)
     frame_number = 0

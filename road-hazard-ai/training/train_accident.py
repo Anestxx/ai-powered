@@ -13,16 +13,28 @@ IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 def validate_dataset(data_path: Path):
     dataset_root = ROOT / "datasets" / "accident"
     missing = []
+    invalid = []
     for split in ("train", "val"):
         image_dir = dataset_root / "images" / split
+        label_dir = dataset_root / "labels" / split
         images = [p for p in image_dir.glob("*") if p.suffix.lower() in IMAGE_SUFFIXES] if image_dir.exists() else []
         if not images:
             missing.append(str(image_dir))
+            continue
+        for image in images:
+            label = label_dir / f"{image.stem}.txt"
+            if not label.is_file():
+                invalid.append(f"{image} -> missing {label}")
     if missing:
         raise FileNotFoundError(
             "Add labelled accident and non-accident bus-camera frames first. Missing image folders:\n  - "
             + "\n  - ".join(missing)
             + "\nLabels belong in datasets/accident/labels/<split>, with matching YOLO .txt names."
+        )
+    if invalid:
+        raise ValueError(
+            "Every accident image needs a matching YOLO label file, including an empty file for "
+            "a normal/non-accident frame:\n  - " + "\n  - ".join(invalid[:10])
         )
     if not data_path.is_file():
         raise FileNotFoundError(f"Dataset YAML not found: {data_path}")
