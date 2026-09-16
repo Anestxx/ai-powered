@@ -1,6 +1,21 @@
 # Codyssey Urban Intelligence
 
-The complete backend database layer is contained in [database/](database/README.md).
+Codyssey is organized as a frontend and a PostGIS-backed API:
+
+- [`frontend/`](frontend/) — the current React application.
+- [`frontend/legacy-codyssey/`](frontend/legacy-codyssey/) — preserved earlier frontend variant.
+- [`frontend/legacy-root-flat/`](frontend/legacy-root-flat/) — preserved flat-file frontend copy.
+- [`database/`](database/README.md) — FastAPI, Alembic, PostgreSQL, and PostGIS service.
+
+## Run the frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## Run the backend
 
 ```bash
 cd database
