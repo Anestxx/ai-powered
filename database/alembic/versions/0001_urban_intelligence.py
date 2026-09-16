@@ -1,0 +1,31 @@
+"""Initial PostGIS schema for the urban intelligence platform."""
+from alembic import op
+
+revision = "0001_urban_intelligence"
+down_revision = None
+branch_labels = None
+depends_on = None
+
+def upgrade() -> None:
+    op.execute("CREATE EXTENSION IF NOT EXISTS postgis")
+    op.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto")
+    op.execute("""
+    CREATE TABLE users (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(150) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL, password_hash TEXT NOT NULL, role VARCHAR(50) NOT NULL DEFAULT 'citizen', is_active BOOLEAN NOT NULL DEFAULT TRUE, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE routes (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), route_number VARCHAR(50) NOT NULL, route_name VARCHAR(255), operator VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE vehicles (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), vehicle_number VARCHAR(100) UNIQUE NOT NULL, vehicle_type VARCHAR(50) NOT NULL DEFAULT 'bus', route_id UUID REFERENCES routes(id) ON DELETE SET NULL, status VARCHAR(50) NOT NULL DEFAULT 'active', camera_enabled BOOLEAN NOT NULL DEFAULT TRUE, gps_enabled BOOLEAN NOT NULL DEFAULT TRUE, last_location GEOGRAPHY(POINT,4326), last_seen TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE vehicle_locations (id BIGSERIAL PRIMARY KEY, vehicle_id UUID NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE, location GEOGRAPHY(POINT,4326) NOT NULL, speed_kmh NUMERIC(6,2), heading NUMERIC(6,2), recorded_at TIMESTAMPTZ NOT NULL);
+    CREATE TABLE road_segments (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), road_name VARCHAR(255), road_type VARCHAR(100), speed_limit_kmh NUMERIC(6,2), lane_count INTEGER, capacity INTEGER, geometry GEOGRAPHY(LINESTRING,4326) NOT NULL, is_active BOOLEAN NOT NULL DEFAULT TRUE, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE events (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), event_type VARCHAR(100) NOT NULL, location GEOGRAPHY(POINT,4326) NOT NULL, road_segment_id UUID REFERENCES road_segments(id) ON DELETE SET NULL, severity VARCHAR(50), confidence NUMERIC(5,4) CHECK (confidence BETWEEN 0 AND 1), status VARCHAR(50) NOT NULL DEFAULT 'detected', first_detected_at TIMESTAMPTZ NOT NULL, last_detected_at TIMESTAMPTZ NOT NULL, detection_count INTEGER NOT NULL DEFAULT 1 CHECK (detection_count > 0), independent_vehicle_count INTEGER NOT NULL DEFAULT 1 CHECK (independent_vehicle_count > 0), description TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE observations (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), vehicle_id UUID REFERENCES vehicles(id) ON DELETE SET NULL, event_id UUID REFERENCES events(id) ON DELETE SET NULL, event_type VARCHAR(100) NOT NULL, confidence NUMERIC(5,4) NOT NULL CHECK (confidence BETWEEN 0 AND 1), location GEOGRAPHY(POINT,4326) NOT NULL, observed_at TIMESTAMPTZ NOT NULL, model_name VARCHAR(100), model_version VARCHAR(50), tracking_id VARCHAR(100), severity VARCHAR(50), raw_payload JSONB, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE evidence (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), event_id UUID NOT NULL REFERENCES events(id) ON DELETE CASCADE, observation_id UUID REFERENCES observations(id) ON DELETE SET NULL, file_url TEXT NOT NULL, file_type VARCHAR(50), captured_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE traffic_snapshots (id BIGSERIAL PRIMARY KEY, road_segment_id UUID NOT NULL REFERENCES road_segments(id) ON DELETE CASCADE, vehicle_count INTEGER CHECK (vehicle_count >= 0), average_speed_kmh NUMERIC(6,2), traffic_density NUMERIC(6,3), congestion_score NUMERIC(5,4) CHECK (congestion_score BETWEEN 0 AND 1), recorded_at TIMESTAMPTZ NOT NULL);
+    CREATE TABLE road_segment_state (road_segment_id UUID PRIMARY KEY REFERENCES road_segments(id) ON DELETE CASCADE, current_speed_kmh NUMERIC(6,2), congestion_score NUMERIC(5,4) NOT NULL DEFAULT 0 CHECK (congestion_score BETWEEN 0 AND 1), hazard_score NUMERIC(5,4) NOT NULL DEFAULT 0 CHECK (hazard_score BETWEEN 0 AND 1), accident_score NUMERIC(5,4) NOT NULL DEFAULT 0 CHECK (accident_score BETWEEN 0 AND 1), estimated_travel_time_seconds INTEGER, updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE violations (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), event_id UUID REFERENCES events(id) ON DELETE SET NULL, violation_type VARCHAR(100) NOT NULL, confidence NUMERIC(5,4) CHECK (confidence BETWEEN 0 AND 1), status VARCHAR(50) NOT NULL DEFAULT 'pending_review', reviewed_by UUID REFERENCES users(id) ON DELETE SET NULL, reviewed_at TIMESTAMPTZ, review_notes TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    CREATE TABLE notifications (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id) ON DELETE CASCADE, event_id UUID REFERENCES events(id) ON DELETE SET NULL, notification_type VARCHAR(100), title VARCHAR(255), message TEXT, is_read BOOLEAN NOT NULL DEFAULT FALSE, sent_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+    """)
+    op.execute("""
+    CREATE INDEX ix_events_location_gist ON events USING GIST (location); CREATE INDEX ix_observations_location_gist ON observations USING GIST (location); CREATE INDEX ix_vehicle_locations_location_gist ON vehicle_locations USING GIST (location); CREATE INDEX ix_road_segments_geometry_gist ON road_segments USING GIST (geometry); CREATE INDEX ix_events_type_status ON events (event_type, status); CREATE INDEX ix_events_last_detected ON events (last_detected_at DESC); CREATE INDEX ix_observations_event ON observations (event_id); CREATE INDEX ix_observations_vehicle_time ON observations (vehicle_id, observed_at DESC); CREATE INDEX ix_vehicle_locations_vehicle_time ON vehicle_locations (vehicle_id, recorded_at DESC); CREATE INDEX ix_traffic_snapshots_segment_time ON traffic_snapshots (road_segment_id, recorded_at DESC);
+    """)
+
+def downgrade() -> None:
+    op.execute("DROP TABLE IF EXISTS notifications, violations, road_segment_state, traffic_snapshots, evidence, observations, events, road_segments, vehicle_locations, vehicles, routes, users CASCADE")
