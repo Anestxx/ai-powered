@@ -1,0 +1,26 @@
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+
+# Generated training and inference artifacts
+01_ai_edge/outputs/
+01_ai_edge/runs/
+01_ai_edge/**/*.npy
+01_ai_edge/**/*.mp4
+
+# Local model checkpoints; store large weights outside the source repository
+01_ai_edge/**/*.pt
+
+# Dataset images are local training inputs; keep labels, configs, and guides
+01_ai_edge/datasets/**/images/*
+water logging.v3i.yolov8/**/images/*
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

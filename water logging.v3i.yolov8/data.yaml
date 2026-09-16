@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['water_logging']
+
+roboflow:
+  workspace: convergeone-inc
+  project: water-logging-hpkes
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/convergeone-inc/water-logging-hpkes/dataset/3
